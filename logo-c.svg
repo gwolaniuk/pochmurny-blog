@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="pochmurny.net — smutna chmurka, wariant C (naklejka)">
+  <title>pochmurny.net — smutna chmurka (naklejka)</title>
+  <!-- C: naklejka/mascot — gruby kontur, wielkie oczy -->
+  <path d="M26 64 a17 17 0 0 1 -2 -33.5 a22 22 0 0 1 41 -12 a18 18 0 0 1 30 14 a17 17 0 0 1 -6 31.5 z"
+        fill="#d7e6f2" stroke="#07090c" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="46" cy="37" r="10.5" fill="#ffffff" stroke="#07090c" stroke-width="4"/>
+  <circle cx="76" cy="37" r="10.5" fill="#ffffff" stroke="#07090c" stroke-width="4"/>
+  <circle cx="48" cy="40.5" r="4.5" fill="#07090c"/>
+  <circle cx="78" cy="40.5" r="4.5" fill="#07090c"/>
+  <path d="M51 57 Q60 49 69 57" fill="none" stroke="#07090c" stroke-width="6" stroke-linecap="round"/>
+  <g stroke="#07090c" stroke-width="6.5" stroke-linecap="round">
+    <line x1="41" y1="75" x2="37" y2="89"/>
+    <line x1="60" y1="77" x2="56" y2="94"/>
+    <line x1="79" y1="75" x2="75" y2="89"/>
+  </g>
+</svg>

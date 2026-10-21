@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>blog — pochmurny.net</title>
+<meta name="description" content="Wpisy o DevOps, self-hostingu, bezpieczeństwie i nerdowskich projektach.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt="logo pochmurny.net — smutna chmurka">
+      <b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a class="cur" href="blog.html">blog</a>
+      <a href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="padding-bottom:20px">
+    <p class="kicker">// dziennik pokładowy</p>
+    <h1 style="font-size:clamp(2.4rem,6vw,4.2rem)">blog</h1>
+    <p class="hero-lead">
+      Notatki z placu budowy: infrastruktura, bezpieczeństwo, sprzęt, który nie chce
+      współpracować, i projekty, które wyszły lepiej niż miały prawo.
+    </p>
+    <div class="cta" style="gap:8px">
+      <a class="btn ghost" href="#wszystko">wszystko</a>
+      <a class="btn ghost" href="#wszystko">devops</a>
+      <a class="btn ghost" href="#wszystko">security</a>
+      <a class="btn ghost" href="#wszystko">hardware</a>
+      <a class="btn ghost" href="#wszystko">muzyka</a>
+    </div>
+  </section>
+
+  <section class="block" id="wszystko" style="padding-top:26px">
+    <div class="sec-head">
+      <span class="no">// 06 wpisów</span>
+      <h2>najnowsze</h2>
+      <span class="aside">od najnowszych</span>
+    </div>
+
+    <div class="rows">
+      <a class="row" href="wpis.html">
+        <div class="when">12.10.2026</div>
+        <div class="main">
+          <h3>Restic, S3 i trójkolorowa chmura</h3>
+          <p>Backup w 2026 roku: jedno narzędzie, trzy lokalizacje i weryfikacja, która faktycznie coś weryfikuje.</p>
+          <div class="tags"><span class="tag-pill">backup</span><span class="tag-pill">s3</span><span class="tag-pill">restic</span></div>
+        </div>
+        <div class="go">6 MIN →</div>
+      </a>
+
+      <a class="row" href="wpis.html">
+        <div class="when">28.09.2026</div>
+        <div class="main">
+          <h3>GitOps bez magii: jeden repo, jeden klaster</h3>
+          <p>Jak nie zamienić swojego pipeline'u w czarną skrzynkę i dlaczego „git push" to najlepszy panel administracyjny.</p>
+          <div class="tags"><span class="tag-pill">gitops</span><span class="tag-pill">kubernetes</span></div>
+        </div>
+        <div class="go">8 MIN →</div>
+      </a>
+
+      <a class="row" href="wpis.html">
+        <div class="when">15.09.2026</div>
+        <div class="main">
+          <h3>Poczta na własnym serwerze — i dlaczego już nie</h3>
+          <p>SPF, DKIM, DMARC, reputacja IP i inne powody, dla których nawet uparty DevOps oddaje pocztę komuś innemu.</p>
+          <div class="tags"><span class="tag-pill">mail</span><span class="tag-pill">dns</span><span class="tag-pill">devops</span></div>
+        </div>
+        <div class="go">7 MIN →</div>
+      </a>
+
+      <a class="row" href="wpis.html">
+        <div class="when">30.08.2026</div>
+        <div class="main">
+          <h3>ESP32 udaje pada do PS3 — protokół USB od środka</h3>
+          <p>Reverse engineering deskryptorów HID, firmware na Zero i radość z pierwszego wykrytego kontrolera.</p>
+          <div class="tags"><span class="tag-pill">hardware</span><span class="tag-pill">esp32</span><span class="tag-pill">retro</span></div>
+        </div>
+        <div class="go">11 MIN →</div>
+      </a>
+
+      <a class="row" href="wpis.html">
+        <div class="when">12.08.2026</div>
+        <div class="main">
+          <h3>Authentik, SSO i jedna tożsamość na dwadzieścia usług</h3>
+          <p>Jak przestać pamiętać dwadzieścia haseł i zacząć pamiętać jedno bardzo dobre.</p>
+          <div class="tags"><span class="tag-pill">sso</span><span class="tag-pill">self-hosted</span><span class="tag-pill">security</span></div>
+        </div>
+        <div class="go">9 MIN →</div>
+      </a>
+
+      <a class="row" href="wpis.html">
+        <div class="when">27.07.2026</div>
+        <div class="main">
+          <h3>Martwy kanał — dlaczego ta strona wygląda tak, jak wygląda</h3>
+          <p>Neuromancer, szum CRT i jeden akcent koloru. Krótka historia pewnej estetyki.</p>
+          <div class="tags"><span class="tag-pill">meta</span><span class="tag-pill">design</span></div>
+        </div>
+        <div class="go">4 MIN →</div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">
+      <b>„The sky above the port was the color of television, tuned to a dead channel."</b><br>
+      W. Gibson, Neuromancer — skąd nazwa, logo i pogoda na tej stronie.
+    </p>
+    <p class="meta">© 2026 GRZEGORZ WOLANIUK · POCHMURNY.NET<br>WILGOTNOŚĆ TREŚCI: 100% · NAPĘDZANE DESZCZEM</p>
+  </div>
+</footer>
+
+</body>
+</html>

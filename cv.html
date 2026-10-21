@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cv — Grzegorz Wolaniuk · pochmurny.net</title>
+<meta name="description" content="CV — Grzegorz Wolaniuk, DevOps / SecOps Engineer. Doświadczenie, stack, wykształcenie.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt="logo pochmurny.net — smutna chmurka">
+      <b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a href="blog.html">blog</a>
+      <a class="cur" href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="padding-bottom:20px">
+    <p class="kicker">// curriculum vitae</p>
+    <h1 style="font-size:clamp(2.4rem,6vw,4.2rem)">cv</h1>
+    <p class="hero-lead">
+      Grzegorz Wolaniuk — DevOps / SecOps Engineer, Wrocław.
+      Wersja robocza: <b>aktualizacja <span class="todo" title="do uzupełnienia">10.2026</span></b>,
+      PDF do pobrania: <span class="todo" title="do uzupełnienia: link do PDF">TODO</span>.
+    </p>
+  </section>
+
+  <!-- ─── doświadczenie ────────────────────────────────────── -->
+  <section class="block" id="doswiadczenie" style="padding-top:26px">
+    <div class="sec-head">
+      <span class="no">// 01</span>
+      <h2>doświadczenie</h2>
+      <span class="aside">chronologicznie</span>
+    </div>
+
+    <div class="rows">
+      <div class="row static">
+        <div class="when"><span class="todo" title="do uzupełnienia">20XX — dziś</span></div>
+        <div class="main">
+          <h3>DevOps Engineer — NATEK</h3>
+          <p>Wrocław. Utrzymanie i rozwój środowisk produkcyjnych, automatyzacja, IaC, monitoring.</p>
+          <div class="tags"><span class="tag-pill">kubernetes</span><span class="tag-pill">terraform</span><span class="tag-pill">ci/cd</span><span class="tag-pill">linux</span></div>
+        </div>
+        <div class="go">TERAŹNIEJSZOŚĆ</div>
+      </div>
+
+      <div class="row static">
+        <div class="when"><span class="todo" title="do uzupełnienia">20XX — 20XX</span></div>
+        <div class="main">
+          <h3>Tech Armor — DevOps / SecOps</h3>
+          <p>Własna firma: infrastruktura, bezpieczeństwo endpointów (EDR), utrzymanie usług i automatyzacje dla klientów.</p>
+          <div class="tags"><span class="tag-pill">edr</span><span class="tag-pill">bezpieczeństwo</span><span class="tag-pill">self-hosting</span></div>
+        </div>
+        <div class="go">WŁASNA DZIAŁALNOŚĆ</div>
+      </div>
+
+      <div class="row static">
+        <div class="when"><span class="todo" title="do uzupełnienia">20XX — 20XX</span></div>
+        <div class="main">
+          <h3>Future Processing</h3>
+          <p>Praca projektowa w software house — <span class="todo" title="do uzupełnienia: rola i zakres">zakres do uzupełnienia</span>.</p>
+          <div class="tags"><span class="tag-pill">devops</span><span class="tag-pill">projekty klienckie</span></div>
+        </div>
+        <div class="go">SOFTWARE HOUSE</div>
+      </div>
+
+      <div class="row static">
+        <div class="when"><span class="todo" title="do uzupełnienia">20XX — 20XX</span></div>
+        <div class="main">
+          <h3>IBM</h3>
+          <p>Środowiska korporacyjne, utrzymanie systemów — <span class="todo" title="do uzupełnienia: rola i zakres">zakres do uzupełnienia</span>.</p>
+          <div class="tags"><span class="tag-pill">enterprise</span><span class="tag-pill">utrzymanie</span></div>
+        </div>
+        <div class="go">ENTERPRISE</div>
+      </div>
+
+      <div class="row static">
+        <div class="when"><span class="todo" title="do uzupełnienia">20XX — 20XX</span></div>
+        <div class="main">
+          <h3>BNY Mellon</h3>
+          <p>Środowiska finansowe, administracja systemami — <span class="todo" title="do uzupełnienia: rola i zakres">zakres do uzupełnienia</span>.</p>
+          <div class="tags"><span class="tag-pill">linux</span><span class="tag-pill">administracja</span></div>
+        </div>
+        <div class="go">FINANCE</div>
+      </div>
+
+      <div class="row static">
+        <div class="when">2013</div>
+        <div class="main">
+          <h3>Pierwsze kroki w IT</h3>
+          <p>Administracja, helpdesk, pierwsze własne maszyny i pierwsze zarwane noce przy Linuksie.</p>
+        </div>
+        <div class="go">GENESIS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── stack ────────────────────────────────────────────── -->
+  <section class="block" id="stack">
+    <div class="sec-head">
+      <span class="no">// 02</span>
+      <h2>stack</h2>
+      <span class="aside">codzienne narzędzia</span>
+    </div>
+
+    <div class="facts">
+      <div><span class="k">systemy</span><span class="v">Linux (Debian, RHEL) · Windows Server</span></div>
+      <div><span class="k">kontenery</span><span class="v">Docker · Kubernetes · Helm</span></div>
+      <div><span class="k">iac / gitops</span><span class="v">Terraform · Ansible · Flux/Argo</span></div>
+      <div><span class="k">ci/cd</span><span class="v">GitHub Actions · GitLab CI · Jenkins</span></div>
+      <div><span class="k">monitoring</span><span class="v">Prometheus · Grafana · Loki</span></div>
+      <div><span class="k">security</span><span class="v">EDR · hardening · audyty · backup/DR</span></div>
+      <div><span class="k">sieć</span><span class="v">DNS · poczta (SPF/DKIM/DMARC) · VPN · TLS</span></div>
+      <div><span class="k">skrypty</span><span class="v">Bash · Python · YAML :)</span></div>
+    </div>
+  </section>
+
+  <!-- ─── wykształcenie / języki ───────────────────────────── -->
+  <section class="block" id="pozostale">
+    <div class="sec-head">
+      <span class="no">// 03</span>
+      <h2>wykształcenie i języki</h2>
+      <span class="aside"><span class="todo" title="do uzupełnienia">do uzupełnienia</span></span>
+    </div>
+
+    <div class="rows">
+      <div class="row static">
+        <div class="when"><span class="todo" title="do uzupełnienia">20XX — 20XX</span></div>
+        <div class="main">
+          <h3><span class="todo" title="do uzupełnienia: uczelnia i kierunek">Uczelnia / kierunek</span></h3>
+          <p><span class="todo" title="do uzupełnienia: stopień, temat pracy">stopień i szczegóły</span></p>
+        </div>
+        <div class="go">WYKSZTAŁCENIE</div>
+      </div>
+
+      <div class="row static">
+        <div class="when">—</div>
+        <div class="main">
+          <h3>Języki</h3>
+          <p>polski — ojczysty · angielski — <span class="todo" title="do uzupełnienia: poziom">poziom</span></p>
+        </div>
+        <div class="go">JĘZYKI</div>
+      </div>
+
+      <div class="row static">
+        <div class="when">—</div>
+        <div class="main">
+          <h3>Certyfikaty / szkolenia</h3>
+          <p><span class="todo" title="do uzupełnienia: lista certyfikatów, jeśli są">do uzupełnienia</span></p>
+        </div>
+        <div class="go">CERTYFIKATY</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── kontakt ──────────────────────────────────────────── -->
+  <section class="block" id="kontakt">
+    <div class="sec-head">
+      <span class="no">// 04</span>
+      <h2>kontakt</h2>
+      <span class="aside">wszystkie kanały → <a href="index.html#kanaly" style="color:var(--lime);text-decoration:none">strona główna</a></span>
+    </div>
+
+    <div class="facts">
+      <div><span class="k">e-mail</span><span class="v"><a href="mailto:grzegorz@pochmurny.net">grzegorz@pochmurny.net</a></span></div>
+      <div><span class="k">linkedin</span><span class="v"><a href="https://www.linkedin.com/in/grzegorz-wolaniuk" rel="me">in/grzegorz-wolaniuk</a></span></div>
+      <div><span class="k">github</span><span class="v"><a href="https://github.com/gwolaniuk" rel="me">github.com/gwolaniuk</a></span></div>
+      <div><span class="k">facebook</span><span class="v"><a href="https://www.facebook.com/grzegorz.wolaniuk" rel="me">facebook.com/grzegorz.wolaniuk</a></span></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">
+      <b>„The sky above the port was the color of television, tuned to a dead channel."</b><br>
+      W. Gibson, Neuromancer — skąd nazwa, logo i pogoda na tej stronie.
+    </p>
+    <p class="meta">© 2026 GRZEGORZ WOLANIUK · POCHMURNY.NET<br>WILGOTNOŚĆ TREŚCI: 100% · NAPĘDZANE DESZCZEM</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wybór logo — pochmurny.net</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .variants{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:30px}
+  .variant{border:1px solid var(--line);border-radius:var(--r);padding:26px;background:var(--bg-2)}
+  .variant h3{font:700 18px/1.2 var(--display);margin:0 0 4px}
+  .variant p{color:var(--dim);font-size:14px;margin:0 0 18px}
+  .sizes{display:flex;align-items:flex-end;gap:26px}
+  .sizes figure{margin:0;text-align:center}
+  .sizes img{display:block;margin-inline:auto}
+  .sizes figcaption{font:400 10px/1.6 var(--mono);color:var(--dim);letter-spacing:.12em;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt=""><b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a href="blog.html">blog</a>
+      <a href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero" style="padding-bottom:10px">
+    <p class="kicker">// robocze · do wyboru</p>
+    <h1 style="font-size:clamp(2.2rem,5vw,3.4rem)">trzy warianty logo</h1>
+    <p class="hero-lead">
+      Wszystkie w tej samej sylwetce chmury (smutna chmurka z oczkami), różnią się
+      tylko językiem formy. Przy każdym rozmiary 24 / 64 / 170 px — to, co widać
+      w tych najmniejszych, będzie widać też jako favicon.
+    </p>
+    <div class="cta">
+      <a class="btn ghost" href="logo-a.svg">A — flat</a>
+      <a class="btn ghost" href="logo-b.svg">B — outline</a>
+      <a class="btn ghost" href="logo-c.svg">C — naklejka</a>
+    </div>
+  </section>
+
+  <div class="variants">
+    <div class="variant">
+      <h3>A — flat</h3>
+      <p>Jedna bryła, twarz „wycięta" kolorem tła. Najmocniejszy, najlepiej trzyma
+         się w małym rozmiarze (favicon, stopka).</p>
+      <div class="sizes">
+        <figure><img src="logo-a.svg" width="24" height="24" alt=""><figcaption>24 PX</figcaption></figure>
+        <figure><img src="logo-a.svg" width="64" height="64" alt=""><figcaption>64 PX</figcaption></figure>
+        <figure><img src="logo-a.svg" width="170" height="170" alt=""><figcaption>170 PX</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="variant">
+      <h3>B — outline</h3>
+      <p>Sam kontur, jedna grubość linii. Elegancki, działa w jednym kolorze
+         (druk, stopka, wersja mono).</p>
+      <div class="sizes">
+        <figure><img src="logo-b.svg" width="24" height="24" alt=""><figcaption>24 PX</figcaption></figure>
+        <figure><img src="logo-b.svg" width="64" height="64" alt=""><figcaption>64 PX</figcaption></figure>
+        <figure><img src="logo-b.svg" width="170" height="170" alt=""><figcaption>170 PX</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="variant">
+      <h3>C — naklejka</h3>
+      <p>Gruby kontur, wielkie oczy, klimat mascota/naklejki. Najbardziej „osobisty",
+         ale najwięcej się dzieje.</p>
+      <div class="sizes">
+        <figure><img src="logo-c.svg" width="24" height="24" alt=""><figcaption>24 PX</figcaption></figure>
+        <figure><img src="logo-c.svg" width="64" height="64" alt=""><figcaption>64 PX</figcaption></figure>
+        <figure><img src="logo-c.svg" width="170" height="170" alt=""><figcaption>170 PX</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">Wybrany wariant kopiujemy do <b>logo.svg</b> — reszta strony podmienia się sama.</p>
+    <p class="meta">POCHMURNY.NET · SZKIC ROBOCZY</p>
+  </div>
+</footer>
+
+</body>
+</html>

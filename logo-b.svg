@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="pochmurny.net — smutna chmurka, wariant B (outline)">
+  <title>pochmurny.net — smutna chmurka (outline)</title>
+  <!-- B: kontur — działa w jednym kolorze, do stopki/druku -->
+  <g fill="none" stroke="#e6edf3" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M26 64 a17 17 0 0 1 -2 -33.5 a22 22 0 0 1 41 -12 a18 18 0 0 1 30 14 a17 17 0 0 1 -6 31.5 z"/>
+    <path d="M50 55 Q60 47 70 55"/>
+  </g>
+  <circle cx="45" cy="38" r="5" fill="#e6edf3"/>
+  <circle cx="75" cy="38" r="5" fill="#e6edf3"/>
+  <g stroke="#c9ff00" stroke-width="5.5" stroke-linecap="round">
+    <line x1="43" y1="74" x2="39" y2="87"/>
+    <line x1="60" y1="76" x2="56" y2="92"/>
+    <line x1="77" y1="74" x2="73" y2="87"/>
+  </g>
+</svg>

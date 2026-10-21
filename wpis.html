@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restic, S3 i trójkolorowa chmura — pochmurny.net</title>
+<meta name="description" content="Backup w 2026 roku: restic, S3, trzy lokalizacje i weryfikacja, która faktycznie coś weryfikuje.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt="logo pochmurny.net — smutna chmurka">
+      <b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a class="cur" href="blog.html">blog</a>
+      <a href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="post">
+    <a class="back" href="blog.html">← wróć do bloga</a>
+
+    <h1>Restic, S3 i trójkolorowa chmura</h1>
+
+    <div class="meta">
+      <span><b>12.10.2026</b></span>
+      <span>6 MIN CZYTANIA</span>
+      <span>BACKUP · S3 · RESTIC</span>
+    </div>
+
+    <div class="prose">
+      <p class="lead">
+        Każdy ma backup. Niewielu ma backup, który odtworzył. Oto układ, który przeszedł
+        próbę ognia — czyli próbę „serwer zniknął w sobotę o 23:40".
+      </p>
+
+      <p>
+        Zasada jest prosta i stara jak świat: <strong>3-2-1</strong>. Trzy kopie, na dwóch
+        różnych nośnikach, z czego jedna poza domem. Problem w tym, że „poza domem" w 2026
+        roku zwykle znaczy „w jakiejś chmurze", a chmura bez planu wyjścia to tylko
+        czyjś cudzy dysk z abonamentem.
+      </p>
+
+      <h2>Jedno narzędzie zamiast trzech</h2>
+
+      <p>
+        Do snapshotów używam <code>restic</code> — deduplikacja, szyfrowanie po stronie
+        klienta i backendy od NFS-a po S3. Jedna konfiguracja, jeden schemat retencji,
+        jeden plik do zrozumienia za pół roku:
+      </p>
+
+      <pre><code>export RESTIC_REPOSITORY="s3:https://s3.eu-central-1.amazonaws.com/pochmurny-backup"
+export RESTIC_PASSWORD_COMMAND="cat /root/.restic-pass"
+
+restic backup /etc /var/www /srv --exclude-caches
+restic forget --keep-daily 7 --keep-weekly 5 --keep-monthly 12 --prune
+restic check --read-data-subset=5%</code></pre>
+
+      <p>
+        Ta ostatnia linia jest najważniejsza w całym wpisie. <code>restic check</code> bez
+        <code>--read-data</code> sprawdza tylko indeks — a to trochę jak przeglądanie
+        spisu paczek w magazynie, którego nigdy nie otworzyłeś.
+      </p>
+
+      <h2>Trzy kolory, trzy lokalizacje</h2>
+
+      <p>Kopie lądują w trzech miejscach i każde ma inną rolę:</p>
+
+      <ul>
+        <li><strong>lokalnie</strong> — NAS, szybkie przywracanie, pierwsza linia obrony;</li>
+        <li><strong>S3</strong> — offsite, wersjonowane, z Object Lockiem na krytyczne katalogi;</li>
+        <li><strong>u rodziny</strong> — malinka z dyskiem, zero zaufania do mojej sieci i mojego prądu.</li>
+      </ul>
+
+      <blockquote>
+        <p>
+          „The sky above the port was the color of television, tuned to a dead channel."
+          — mój dysk z 2019 roku też miał taki kolor, zanim zamilkł na zawsze.
+        </p>
+      </blockquote>
+
+      <h2>Próba ognia</h2>
+
+      <p>
+        Backup bez testu odtworzenia to kopia Schrödingera. Raz na kwartał losuję jeden
+        plik i jedną bazę, odtwarzam je na czystej maszynie i mierzę czas. Wyniki trafiają
+        do arkusza — bo „jakoś pójdzie" nie jest metryką.
+      </p>
+
+      <h3>Co bym zrobił inaczej</h3>
+
+      <p>
+        Szybciej zaczął wersjonować retencję i od razu włączył alerty na brak świeżego
+        snapshotu. Cisza w backupach nigdy nie znaczy, że jest dobrze — zwykle znaczy,
+        że coś przestało się wykonywać trzy tygodnie temu.
+      </p>
+
+      <p>
+        Konfiguracja i skrypty: <a href="https://github.com/gwolaniuk" rel="me">github.com/gwolaniuk</a>.
+        Jak macie własne układy, które przeszły próbę ognia — piszcie na
+        <a href="mailto:grzegorz@pochmurny.net">grzegorz@pochmurny.net</a>.
+      </p>
+    </div>
+
+    <nav class="post-nav">
+      <a href="wpis.html">
+        <span class="lbl">← poprzedni</span>
+        <span class="t">GitOps bez magii: jeden repo, jeden klaster</span>
+      </a>
+      <a href="wpis.html">
+        <span class="lbl">następny →</span>
+        <span class="t">Martwy kanał — dlaczego ta strona tak wygląda</span>
+      </a>
+    </nav>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">
+      <b>„The sky above the port was the color of television, tuned to a dead channel."</b><br>
+      W. Gibson, Neuromancer — skąd nazwa, logo i pogoda na tej stronie.
+    </p>
+    <p class="meta">© 2026 GRZEGORZ WOLANIUK · POCHMURNY.NET<br>WILGOTNOŚĆ TREŚCI: 100% · NAPĘDZANE DESZCZEM</p>
+  </div>
+</footer>
+
+</body>
+</html>
