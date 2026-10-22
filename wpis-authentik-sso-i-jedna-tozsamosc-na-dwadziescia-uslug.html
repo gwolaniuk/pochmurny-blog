@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Authentik, SSO i jedna tożsamość na dwadzieścia usług — pochmurny.net</title>
+<meta name="description" content="Jak przestać pamiętać dwadzieścia haseł i zacząć pamiętać jedno bardzo dobre.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt="logo pochmurny.net — smutna chmurka">
+      <b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a class="cur" href="blog.html">blog</a>
+      <a href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="post">
+    <a class="back" href="blog.html">← wróć do bloga</a>
+
+    <h1>Authentik, SSO i jedna tożsamość na dwadzieścia usług</h1>
+
+    <div class="meta">
+      <span><b>12.08.2026</b></span>
+      <span>2 MIN CZYTANIA</span>
+      <span>SSO · SELF-HOSTED · SECURITY</span>
+    </div>
+
+    <div class="prose">
+      <h2>Problem: dwadzieścia usług, dwadzieścia haseł</h2>
+      <p>Po latach samodzielnych hostowania lądujesz w punkcie, w którym masz managera haseł pełnego wpisów typu <code>admin@something: Zm3nH4slo2!</code> i nawyk logowania się osobno do każdego panelu. Każda usługa to osobny silnik sesji, osobna polityka haseł i — co gorsza — osobne konto, które trzeba wyłączyć, gdy ktoś odchodzi z projektu.</p>
+      <p>Rozwiązanie nazywa się SSO i od lat jest standardem w korporacjach. Nic nie stoi na przeszkodzie, żeby postawić je u siebie.</p>
+      <h2>Co wybrałem: Authentik</h2>
+      <p>Postawiłem &lt;a href=&quot;https://goauthentik.io&quot; rel=&quot;nofollow&quot;&gt;Authentik&lt;/a&gt; — aplikację w stylu Keycloak/Dex, ale z sensownym UI i niskim progiem wejścia. Użytkownicy i grupy żyją w jednym miejscu (u mnie source of truth to LDAP do Proxmoxa/LDAP-a, ale może to być OIDC albo nawet lokalna baza).</p>
+      <p>Dwie ścieżki integracji:</p>
+      <ul>
+      <li><strong>OAuth2 / OIDC</strong> — tam, gdzie aplikacja potrafi: Gitea, Nextcloud, Portainer, Grafana. Trzy zmienne środowiskowe i gotowe;</li>
+      <li><strong>forward auth (<code>auth_request</code>)</strong> — tam, gdzie nie potrafi: panel nginx-a, Proxmox, VictoriaMetrics. Nginx pyta Authentika o zgodę, a potem przepuszcza tylko z ważnym cookie.</li>
+      </ul>
+      <pre><code>
+      location / {
+          auth_request /auth-verify;
+          proxy_set_header X-Authentik-Username $upstream_http_x_authentik_username;
+      }
+      location = /auth-verify {
+          proxy_pass http://authentik/outpost.goauthentik.io/auth/nginx;
+          proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
+      }
+      </code></pre>
+      <h2>Rzeczy, które bolą przy pierwszym montażu</h2>
+      <ul>
+      <li><strong>Pierwsze konto zakłada się jednorazowim tokenem</strong> z logów kontenera — łatwo o to zapomnieć, gdy stawiasz wszystko z pamięci;</li>
+      <li><strong>flująca aplikacja po autoryzacji</strong> — nie każda apka umie zrozumieć, że IDP zniknął. Błędy 401/500 w proxy zwykle znaczą „aplikacja dostała inny claim, niż się spodziewała&quot;;</li>
+      <li><strong>konto break-glass</strong> — lokalne konto administratora wyłączone na co dzień. Jeśli Authentik zdechnie w niedzielę o 23:00, bez niego nie wejdzesz nawet do panelu, żeby go włączyć;</li>
+      <li><strong>wylogowanie globalne</strong> — po wyłączeniu konta użytkownika sesje żyją do końca TTL. Włączcie krótkie TTL na aplikacjach, gdzie to ma znaczenie.</li>
+      </ul>
+      <h2>Ile to dało</h2>
+      <p>Jedno bardzo dobre hasło (długie, w managerze), jeden klucz sprzętowy FIDO2 zamiast dwudziestu kroków SMS i jedno miejsce, w którym wyłączam dostęp — jednym kliknięciem, nie telefonem do pięciu osób.</p>
+      <p>Minus jest jeden: po tygodniu z SSO irytujesz się przy każdej usłudze, która *nie* obsługuje logowania przez OIDC.</p>
+      <p>Konfiguracja i przykłady: &lt;a href=&quot;https://github.com/gwolaniuk&quot; rel=&quot;me&quot;&gt;github.com/gwolaniuk&lt;/a&gt;. Pytania: &lt;a href=&quot;mailto:grzegorz@pochmurny.net&quot;&gt;grzegorz@pochmurny.net&lt;/a&gt;.</p>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">
+      <b>„The sky above the port was the color of television, tuned to a dead channel."</b><br>
+      W. Gibson, Neuromancer — skąd nazwa, logo i pogoda na tej stronie.
+    </p>
+    <p class="meta">© 2026 GRZEGORZ WOLANIUK · POCHMURNY.NET<br>DZIŚ POCHMURNO</p>
+  </div>
+</footer>
+
+</body>
+</html>

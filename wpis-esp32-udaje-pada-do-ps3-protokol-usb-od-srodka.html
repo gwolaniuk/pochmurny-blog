@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ESP32 udaje pada do PS3 — protokół USB od środka — pochmurny.net</title>
+<meta name="description" content="Reverse engineering deskryptorów HID, firmware na Zero i radość z pierwszego wykrytego kontrolera.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt="logo pochmurny.net — smutna chmurka">
+      <b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a class="cur" href="blog.html">blog</a>
+      <a href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="post">
+    <a class="back" href="blog.html">← wróć do bloga</a>
+
+    <h1>ESP32 udaje pada do PS3 — protokół USB od środka</h1>
+
+    <div class="meta">
+      <span><b>30.08.2026</b></span>
+      <span>2 MIN CZYTANIA</span>
+      <span>HARDWARE · ESP32 · RETRO</span>
+    </div>
+
+    <div class="prose">
+      <h2>Dlaczego komuś potrzebny pad od PS3</h2>
+      <p>Konsola z 2006 roku, oryginalny pad DualShock 3 z padającą baterią i jedna drażliwa cecha PS3: konsola chce widzieć pada <strong>przy starcie</strong>. Bez niej nie przejdziesz przez ekran logowania, jeśli nie sparujesz pada z wyprzedzeniem. Efekt: żeby cokolwiek zrobić, potrzebujesz sprawnego oryginalnego pada — koło się domyka.</p>
+      <p>Postanowiłem zrobić pada, którego nikt nie musi kupować: <strong>ESP32-S2/S3 z natywnym USB OTG</strong>, udający DualShock 3.</p>
+      <h2>USB od strony urządzeń</h2>
+      <p>PS3 to nie zwykły HID PC — konsola patrzy nie tylko na deskryptory, ale też na konkretne VID/PID i na kolejność zgłoszeń. Ale fundament jest standardowy: device descriptor, configuration descriptor, interface descriptor, potem punkty końcowe (endpointy).</p>
+      <p>Pierwszy krok był oczywisty, zanim kupiłem cokolwiek:</p>
+      <pre><code>
+      lsusb
+      Bus 001 Device 014: ID 054c:0268 Sony Corp. DualShock 3 [GHUP]
+      </code></pre>
+      <p>Ten sam wynik zapisany — czyli pół odpowiedzi: konsola pyta urządzenie „kim jesteś&quot;, a odpowiedź to 18 bajtów, które trzeba odtworzyć co do znaku. Z tego wygenerowałem deskryptory w TinyUSB (NimBLE-era wypadałoby pominąć — tu liczy się USB, nie radio) i zacząłem iterować: zmiana jednego pola, flash, podłączenie do konsoli, patrzenie w logi.</p>
+      <h2>Co PS3 sprawdza</h2>
+      <ul>
+      <li><strong>VID/PID zgodne z oryginalnym padem</strong> — inaczej urządzenie ląduje na liście „nieznane&quot;;</li>
+      <li><strong>klasa i interfeis</strong> — pad to HID z dwoma interrupt IN/OUT, nie wirtualny COM;</li>
+      <li><strong>pierwsze zgłoszenie po podłączeniu</strong> — konsola czeka na komunikat identyfikacyjny i karze czekać, jeśli nie przyjdzie w oknie czasowym. To najbardziej kapryśna część: iterowałem chyba z tuzin razy, aż komunikat poszedł w dobrym momencie.</li>
+      </ul>
+      <p>Reszta (oś, przyciski, cyfry) to tablica bitów w raporcie: ustawiasz bit, wciskasz krzyżak na padzie, patrzysz na ekran — najstarsza pętla deweloperska świata, tylko że z konsolą z 2006 w roli debuggera.</p>
+      <h2>Kiedy wreszcie zaskoczyło</h2>
+      <p>Ekran konsoli pokazał ikonę podłączonego kontrolera. Radość absolutnie nieproporcjonalna do rozmiaru zmiany: zero linii w infrastrukturze, zero PR-ów, a jednak jakieś pół wieczoru pracy. Firmware na Zero — skompilowany, wgrany, zostawiony w konsoli na stałe.</p>
+      <p>Projekt do ogarnięcia: kwestia raportu o stanie akumulatora i rumble (konsola wysyła raporty do pada, a ESP32 musi je choćby zignorować w dobrym stylu), ale do gry w jednego gracza — działa.</p>
+      <p>Źródła: &lt;a href=&quot;https://github.com/gwolaniuk&quot; rel=&quot;me&quot;&gt;github.com/gwolaniuk&lt;/a&gt;. Jeśli ktoś bawił się w podobne rzeczy — &lt;a href=&quot;mailto:grzegorz@pochmurny.net&quot;&gt;grzegorz@pochmurny.net&lt;/a&gt;.</p>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">
+      <b>„The sky above the port was the color of television, tuned to a dead channel."</b><br>
+      W. Gibson, Neuromancer — skąd nazwa, logo i pogoda na tej stronie.
+    </p>
+    <p class="meta">© 2026 GRZEGORZ WOLANIUK · POCHMURNY.NET<br>DZIŚ POCHMURNO</p>
+  </div>
+</footer>
+
+</body>
+</html>

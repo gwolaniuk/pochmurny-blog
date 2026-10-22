@@ -90,9 +90,11 @@ body::before{
   margin:0 0 22px;
 }
 h1{
-  font:700 clamp(2.9rem,8.5vw,6.2rem)/0.94 var(--display);
-  letter-spacing:-.045em;margin:0 0 20px;text-wrap:balance;
+  font:700 clamp(3.1rem,9.5vw,6.9rem)/0.9 var(--display);
+  letter-spacing:-.05em;margin:0 0 22px;
 }
+h1 span{display:block}
+h1 .net{padding-left:1.3em}          /* stopniowane łamanie: .net schodzi niżej */
 h1 .dimmed{color:var(--dim)}
 .roles{
   font:500 13px/1.9 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);

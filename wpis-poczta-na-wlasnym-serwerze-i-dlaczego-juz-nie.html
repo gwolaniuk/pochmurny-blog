@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poczta na własnym serwerze — i dlaczego już nie — pochmurny.net</title>
+<meta name="description" content="SPF, DKIM, DMARC, reputacja IP i inne powody, dla których nawet uparty DevOps oddaje pocztę komuś innemu.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt="logo pochmurny.net — smutna chmurka">
+      <b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a class="cur" href="blog.html">blog</a>
+      <a href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="post">
+    <a class="back" href="blog.html">← wróć do bloga</a>
+
+    <h1>Poczta na własnym serwerze — i dlaczego już nie</h1>
+
+    <div class="meta">
+      <span><b>15.09.2026</b></span>
+      <span>2 MIN CZYTANIA</span>
+      <span>MAIL · DNS · DEVOPS</span>
+    </div>
+
+    <div class="prose">
+      <h2>To był dobry pomysł</h2>
+      <p>Poczta na własnym serwerze brzmi jak naturalny next step, jeśli i tak masz serwer, DNS-y i paranoję dotyczącą danych. Postawiłem to więc porządnie, nie „na ślinę i modlitwę&quot;:</p>
+      <pre><code>
+      MX      mail17.example.pl          ; tylko jeden MX, szybki i pewny
+      TXT     v=spf1 include:_spf.example.pl -all
+      TXT     _dmarc  v=DMARC1; p=quarantine; rua=mailto:dmarc@example.pl
+      DKIM    2048-bit, rotacja co kwartał
+      </code></pre>
+      <p>Na papierze wszystko się zgadzało: SPF -all, DKIM podpisujący poprawnie, DMARC z raportami na maila. Testy z sieci domowej przechodziły, testy z Gmaila przechodziły, konta lądowały w skrzynce odbiorcy.</p>
+      <h2>Gdzie to się zaczyna sypać</h2>
+      <p>Problem nie leży w konfiguracji. Leży w tym, że <strong>rynek ufa adresom IP, nie konfiguracji</strong>:</p>
+      <ul>
+      <li>współdzielone IP z kimś, kto kiedyś wysłał śmieci — i twoje maile idą do spamu;</li>
+      <li>nowy zakres dopiero co zarejestrowany — „podejrzany&quot; z automatu;</li>
+      <li>Forwardowanie na duży provider z DOMINującym SPFDKIM? Nie, gorzej: jeden serwer źle zarządzanej listy subskrypcyjnej i jedna skarga wystarczą, żeby reputacja spadła na tygodnie;</li>
+      <li>weryfikacja przy każdym połączeniu — RBL-e, throttling, DMARC policy u odbiorcy, który wcale nie patrzy na twoje -all, tylko na swój scoring.</li>
+      </ul>
+      <p>Najbardziej bolesny był raport DMARC: 98% wiadomości *udanych*, ale te 2% to nasze własne alerty systemowe, które lądowały u klientów w spamie, a my dowiadywaliśmy się o tym dzień później z telefonu.</p>
+      <h2>Koszt uczciwy</h2>
+      <p>Utrzymywanie serwera SMTP to nie tylko „umieszczę kontener&quot;. To:</p>
+      <ul>
+      <li>monitoring kolejki i opóźnień (mail opóźniony o 40 minut to mail nieistniejący);</li>
+      <li>oddzielna reputacja, z osobnymi narzędziami — Postmaster, SNDS, inboxy testowe;</li>
+      <li>backup skrzynek, który weryfikujesz, jak każdy inny backup;</li>
+      <li>eskalacje, gdy ktoś dostanie maila po swoim urlopie, bo spam został na serwerze.</li>
+      </ul>
+      <p>Policzylem, ile godzin w miesiącu na to idzie, i porównałem z ceną profesjonalnego hostingu poczty. Wynik był jednoznaczny, choć nie satysfakcjonujący.</p>
+      <h2>Oddanie poczty nie jest porażką</h2>
+      <p>Przeniosłem skrzynki na dostawcę, który ma to w DNA — z zachowaniem własnej domeny, po aliasach i z tym samym SPF/DKIM/DMARC, tylko podpisane przez kogoś, kto ma globalną reputację na własnej stronie. Sieć routingowa i backupy dalej są moje, poczta już nie.</p>
+      <p>Zostały mi z tego trzy wnioski:</p>
+      <ul>
+      <li><strong>własny serwer od SMTP</strong> ma sens tylko wtedy, gdy mail jest celem samym w sobie, a nie produktem ubocznym;</li>
+      <li><strong>aliasy na własnej domenie</strong> są tym, co naprawdę kupujesz — przenieść je można w godzinę;</li>
+      <li><strong>-all w SPF jest prawidłowy</strong> niezależnie od tego, kto hostuje — i dalej trzeba na to uważać, bo kiedyś utknął u kogoś <code>+all</code>.</li>
+      </ul>
+      <p>Kiedyś wrócę — pewnie przy innej domenie i innym podejściu. Do tego czasu poczta jest czyjaś, a ja piszę tu notki.</p>
+      <p>Historie wojenne: &lt;a href=&quot;mailto:grzegorz@pochmurny.net&quot;&gt;grzegorz@pochmurny.net&lt;/a&gt;.</p>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">
+      <b>„The sky above the port was the color of television, tuned to a dead channel."</b><br>
+      W. Gibson, Neuromancer — skąd nazwa, logo i pogoda na tej stronie.
+    </p>
+    <p class="meta">© 2026 GRZEGORZ WOLANIUK · POCHMURNY.NET<br>DZIŚ POCHMURNO</p>
+  </div>
+</footer>
+
+</body>
+</html>

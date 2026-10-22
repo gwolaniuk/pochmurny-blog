@@ -1,13 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="pochmurny.net — smutna chmurka, wariant A (flat)">
-  <title>pochmurny.net — smutna chmurka (flat)</title>
-  <!-- A: płaski glif — jedna bryła, twarz wycięta kolorem tła -->
-  <path d="M26 64 a17 17 0 0 1 -2 -33.5 a22 22 0 0 1 41 -12 a18 18 0 0 1 30 14 a17 17 0 0 1 -6 31.5 z" fill="#e6edf3"/>
-  <circle cx="45" cy="37" r="8" fill="#07090c"/>
-  <circle cx="75" cy="37" r="8" fill="#07090c"/>
-  <path d="M50 56 Q60 48 70 56" fill="none" stroke="#07090c" stroke-width="6.5" stroke-linecap="round"/>
-  <g stroke="#c9ff00" stroke-width="7" stroke-linecap="round">
-    <line x1="41" y1="74" x2="37" y2="88"/>
-    <line x1="60" y1="76" x2="56" y2="94"/>
-    <line x1="79" y1="74" x2="75" y2="88"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="pochmurny.net — chmura z deszczem">
+  <title>pochmurny.net — chmura z deszczem</title>
+  <!-- kontur chmury (line-art, bez twarzy) -->
+  <path d="M26 64 a17 17 0 0 1 -2 -33.5 a22 22 0 0 1 41 -12 a18 18 0 0 1 30 14 a17 17 0 0 1 -6 31.5 z"
+        fill="none" stroke="#e6edf3" stroke-width="7" stroke-linejoin="round"/>
+  <!-- trzy krople, akcent limonkowy -->
+  <g fill="none" stroke="#c9ff00" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M44 74 c3.5 5 5.5 7 5.5 9.5 a5.5 5.5 0 0 1 -11 0 c0 -2.5 2 -4.5 5.5 -9.5 z"/>
+    <path d="M60 80 c3.5 5 5.5 7 5.5 9.5 a5.5 5.5 0 0 1 -11 0 c0 -2.5 2 -4.5 5.5 -9.5 z"/>
+    <path d="M76 74 c3.5 5 5.5 7 5.5 9.5 a5.5 5.5 0 0 1 -11 0 c0 -2.5 2 -4.5 5.5 -9.5 z"/>
   </g>
 </svg>

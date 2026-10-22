@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitOps bez magii: jeden repo, jeden klaster — pochmurny.net</title>
+<meta name="description" content="Jak nie zamienić swojego pipeline&#x27;u w czarną skrzynkę i dlaczego „git push&quot; to najlepszy panel administracyjny.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt="logo pochmurny.net — smutna chmurka">
+      <b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a class="cur" href="blog.html">blog</a>
+      <a href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="post">
+    <a class="back" href="blog.html">← wróć do bloga</a>
+
+    <h1>GitOps bez magii: jeden repo, jeden klaster</h1>
+
+    <div class="meta">
+      <span><b>28.09.2026</b></span>
+      <span>2 MIN CZYTANIA</span>
+      <span>GITOPS · KUBERNETES</span>
+    </div>
+
+    <div class="prose">
+      <h2>Punkt wyjścia: panel, który zniknął</h2>
+      <p>Przez lata zmiany na klastrze robiło się tam, gdzie aktualnie było — <code>kubectl edit</code> na produkcji, komuś w środku nocy, kto akurat miał konsolę. Działało, dopóki nie trzeba było odpowiedzieć na pytanie „co się zmieniło we wtorek o 21:14?&quot;. Nagle okazało się, że odpowiedź brzmi „nie wiem, trzeba spytać Pawła&quot;.</p>
+      <p>GitOps odwraca to: <strong>repozytorium Git jest jedynym miejscem, gdzie deklarujesz stan klastra</strong>, a proces automatyczny (u mnie Flux) pilnuje, żeby rzeczywistość dogoniła deklarację. Zmiana bez commita po prostu nie istnieje.</p>
+      <h2>Układ, który lubię: jedno repo, jedno drzewo</h2>
+      <pre><code>
+      clusters/
+        prod/
+          kustomization.yaml    # lista nakładek poniżej
+          infrastructure/       # cert-manager, ingress, external-secrets
+          apps/                 # gitea, grafana, authentik, ...
+      components/
+        deployment.yaml         # powtarzalne szablony
+      </code></pre>
+      <p>Zamiast stu repo z „infrastructure-as-code&quot; i osobnego z „app config&quot; — jedno drzewo, jedno źródło prawdy. Nakładki (kustomize) zamiast helmowych wartości, których nikt nie umie później odtworzyć. Zero magii: <code>kustomize build</code> lokalnie daje dokładnie to, co trafi do klastra.</p>
+      <h2>Co to zmienia w praktyce</h2>
+      <ul>
+      <li><strong>commit = zmiana na produkcji</strong> — z opisem, autorem i review;</li>
+      <li><strong>rollback to <code>git revert</code></strong>, nie „pamiętam, jak było&quot;;</li>
+      <li><strong>diff w PR jest audytem</strong> — każdy widzi, że zmieniamy limit pamięci, a nie tylko „ktoś coś poprawiał&quot;;</li>
+      <li><strong>środowisko odtwarzalne</strong> — nowy klaster = wystawienie tego samego drzewa, bez zbierania checklist z czatu.</li>
+      </ul>
+      <p>Flux robi swoje: obserwuje repo, renderuje manifesty, <strong>aplikuje różnice</strong> i — co ważne — oznacza commit jako zweryfikowany dopiero, gdy zasoby są zdrowe. Sekcja <code>healthChecks</code> w Kustomization to najbardziej niedoceniany element: bez niej Flux uzna za sukces nawet deployment, który crash-loopuje.</p>
+      <h2>Gdzie ludzie się potykają</h2>
+      <ul>
+      <li><strong>tajemnicze pole <code>lastAppliedConfiguration</code></strong> i nakładki, które „nie działają, bo coś nadpisuje&quot; — porządek i sens nakładek trzeba ustalić raz, zanim zrobi się ich czterdzieści;</li>
+      <li><strong>sekrety w repo</strong> — nigdy. External Secrets Operator + Vault/SOPS; bez tego GitOps szybko staje się GitLeaks;</li>
+      <li><strong>auto-sync na produkcji</strong> bez bramki: u mnie auto-sync, ale zmiany idą tylko przez PR, a produkcja ogląda wyłącznie <code>main</code>;</li>
+      <li><strong>paniczne wyłączanie kontrolera</strong> przy awarii — jeśli GitOps zaboli, to znaczy, że diff powinien przejść przez głową, a nie przez szybki push.</li>
+      </ul>
+      <p>Po roku: zero ręcznych zmian na klastrze, jedno miejsce, gdzie wszystko widać, i odpowiedź na pytanie „co i kiedy&quot; w pięć sekund — <code>git log --oneline</code>.</p>
+      <p>Kod i manifesty: &lt;a href=&quot;https://github.com/gwolaniuk&quot; rel=&quot;me&quot;&gt;github.com/gwolaniuk&lt;/a&gt;. Wrażenia i kontrprzykłady: &lt;a href=&quot;mailto:grzegorz@pochmurny.net&quot;&gt;grzegorz@pochmurny.net&lt;/a&gt;.</p>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">
+      <b>„The sky above the port was the color of television, tuned to a dead channel."</b><br>
+      W. Gibson, Neuromancer — skąd nazwa, logo i pogoda na tej stronie.
+    </p>
+    <p class="meta">© 2026 GRZEGORZ WOLANIUK · POCHMURNY.NET<br>DZIŚ POCHMURNO</p>
+  </div>
+</footer>
+
+</body>
+</html>
