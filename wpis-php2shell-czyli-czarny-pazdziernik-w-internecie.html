@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHP2Shell, czyli Czarny Październik w internecie — pochmurny.net</title>
+<meta name="description" content="Najgrubsza dziura w PHP od lat, wyścig z czasem o dobę i botnet, który czekał na okazję. Opowieść dla ludzi, którzy nie programują — ale z Internetu korzystają.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="rain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <img src="logo.svg" alt="logo pochmurny.net — smutna chmurka">
+      <b>pochmurny<span>.net</span></b>
+    </a>
+    <nav>
+      <a href="index.html">start</a>
+      <a href="index.html#projekty">projekty</a>
+      <a class="cur" href="blog.html">blog</a>
+      <a href="cv.html">cv</a>
+      <a href="index.html#kanaly">kanały</a>
+    </nav>
+    <div class="status"><span class="dot"></span>ONLINE</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="post">
+    <a class="back" href="blog.html">← wróć do bloga</a>
+
+    <h1>PHP2Shell, czyli Czarny Październik w internecie</h1>
+
+    <div class="meta">
+      <span><b>26.10.2026</b></span>
+      <span>9 MIN CZYTANIA</span>
+      <span>BEZPIECZEŃSTWO · PHP · INTERNET</span>
+    </div>
+
+    <div class="prose">
+      <p>Cześć!</p>
+      <p>Jeśli w ostatnich dniach ktoś z Twoich znajomych z branży IT chodził blady i mówił rzeczy typu „nie aktualizujesz PHP? to masz przejechane&quot; — to nie była przesada. Mamy właśnie jeden z tych momentów, o których będzie się pisać w podręcznikach. Nazywa się to <strong>PHP2Shell</strong> i spokojnie mogę powiedzieć: to najgrubsza rzecz w PHP od lat, a może i w całej historii tego języka.</p>
+      <p>Usiądź wygodnie, bo historia jest naprawdę dobra: z wyciekiem, wyścigiem z czasem, botnetem i sztuczną inteligencją w roli głównej.</p>
+      <h2>Najpierw: czym w ogóle jest PHP?</h2>
+      <p>Wyobraź sobie, że internet to ogromna biblioteka. Ty podchodzisz do lady i mówisz: „poproszę stronę z moim kontem&quot;. Nikt Ci jednak nie podaje książki — najpierw do akcji wkracza <strong>bibliotekarz</strong>, który biegnie między regałami, zbiera potrzebne kartki, skleja je w jeden dokument i dopiero wtedy podaje Ci go do przeczytania.</p>
+      <p>Tym bibliotekarzem jest właśnie PHP — język programowania działający na serwerze. Nie widzisz go, ale napędza około <strong>70% stron w internecie</strong>: WordPressa, Wikipedię, Drupala, Joomlę, sklepy, fora, blogi, panele logowania, strony urzędów. Jeśli jakaś strona ma logowanie, formularz kontaktowy albo „dodaj do koszyka&quot; — bardzo prawdopodobnie stoi za tym PHP.</p>
+      <p>I tu jest pies pogrzebany: jeśli coś jest w tym bibliotekarzu zepsute, problem mają nie „jacyś programiści&quot;, tylko miliony zwykłych ludzi, którzy z tych stron korzystają.</p>
+      <h2>Co się zepsuło? Dwie dziury, jeden mechanizm</h2>
+      <p>Podatności są dwie i obie mają CVSS <strong>9.2 na 10</strong>. Dla porównania: słynny Log4Shell z 2021 roku miał 10.0, więc jesteśmy o pół kroku od legendy.</p>
+      <ul>
+      <li><strong>CVE-2026-109618</strong> — „korupcja przy braku pamięci&quot;. Kiedy PHP kończy mu się pamięć w trakcie obsługi żądania, zostawia po sobie na wpół zbudowane dane. Sprzątacz, który potem po nich chodzi, dostaje śmieci i... robi to, co one każą. Brzmi jak opis z filmu, ale to dosłownie tak działa.</li>
+      <li><strong>CVE-2026-109619</strong> — „martwe dane z poprzedniego gościa&quot;. PHP trzyma w pamięci resztki z poprzedniego żądania, mimo że pamięć została już zwolniona (to się nazywa <code>use-after-free</code>). Następny gość trafia na te resztki i może nimi sterować.</li>
+      </ul>
+      <p>Efekt obu? <strong>RCE — Remote Code Execution</strong>, czyli zdalne wykonanie kodu. Mówiąc po ludzku: ktoś z drugiego końca świata wysyła na serwer odpowiednio spreparowaną wiadomość i serwer wykonuje jego polecenia. Bez logowania. Bez hasła. Bez niczego. A przy okazji może podejrzeć pamięć procesu, w której spokojnie leżą hasła, tokeny sesji, klucze API i certyfikaty <strong>innych użytkowników</strong>.</p>
+      <p>Najgorsze: to nie jest dziura w WordPressie ani w jakimś pluginie, którą załatasz aktualizacją wtyczki. To dziura <strong>w samym silniku języka</strong>. Nawet strona „Hello World&quot; na świeżo postawionym PHP była podatna.</p>
+      <p>I wisienka na torcie: dotyczy <strong>każdej wersji PHP od 5.4 wzwyż</strong>, czyli praktycznie wszystkiego, co kiedykolwiek działało w sieci.</p>
+      <h2>Jak to odkryto? Tu zaczyna się sci-fi</h2>
+      <p>Sierpień 2026. Zespół badawczy <strong>Wiz</strong> postanawia sprawdzić, czy da się znaleźć głęboko ukryte błędy w kodzie, który ludzie czytali przez dwadzieścia lat. I robi to nietypowo — z pomocą modeli AI (Wiz Atlas, Gemini 4 Argon, GPT-5.6 Sol).</p>
+      <p>19 sierpnia znajdują pierwszą dziurę. 20 sierpnia potwierdzają przejęcie serwera z Drupalem. 21 sierpnia — WordPress. 24 sierpnia zgłaszają wszystko zespołowi PHP. Ten potwierdza 21 września i zaczyna pracę nad poprawką. Wszystko idzie zgodnie ze sztuką, w tajemnicy, żeby hakerzy nie zdążyli.</p>
+      <p>I wtedy, 20 października, <strong>wszystko się rozsypuje</strong>. Identyfikatory CVE zaczynają krążyć po forach i mediach społecznościowych. Ktoś podaje błędną godzinę wydania poprawki i zmyśloną ocenę 10.0. Szczegółów technicznych na szczęście nie ma, ale jest jasny sygnał: „coś grubego w PHP, szykujcie się&quot;.</p>
+      <p>Zespół PHP robi rzecz bezprecedensową — <strong>przyspiesza premierę o dzień</strong>. Poprawki wychodzą 21 października o 13:40 UTC, zamiast 22 października. Cloudflare zdążył wdrożyć reguły ochronne o 3:02 w nocy, czyli dziewięć godzin przed łatką. Brzmi jak akcja z filmu o wyścigu zbrojeń? To był dokładnie taki wyścig.</p>
+      <h2>A teraz najciekawsze: co się działo w sieci</h2>
+      <p>I tu wchodzimy w najbardziej nerdowski fragment tej historii, bo dane z sensorów są piękne w swoim przerażeniu.</p>
+      <p><strong>Ktoś próbował exploitować dziurę ZANIM ją opublikowano.</strong> Amazon, przez swoją sieć honeypotów MadPot, zarejestrował próbę ataku <strong>17 października</strong> — cztery dni przed ujawnieniem i w trakcie embargo. Źródło: adres z sieci anonimizującej. Jak ktoś się o tym dowiedział, do dziś nie wiadomo. To trochę jakby ktoś zapukał do Twoich drzwi, zanim jeszcze kupiłeś mieszkanie.</p>
+      <p><strong>Skala skanowania jest absurdalna.</strong> Laboratorium Delft Threat Intelligence (honeypoty + teleskop sieciowy) naliczyło od 21 do 26 października <strong>ponad 41 tysięcy żądań eksploatacyjnych z 566 adresów IP, w 267 sieciach autonomicznych i 67 krajach</strong>. 168 z tych adresów posłało nie tylko sondę, ale realny kod lub droppera. Najgorętsza godzina: 21 października, 21:00 UTC — <strong>2 116 żądań w sześćdziesiąt minut</strong>.</p>
+      <p>Fastly z kolei zobaczył do południa 22 października około <strong>250 tysięcy żądań od narzędzi nazywających się „php2shell&quot;</strong>, z około 3 200 adresów IP. I tu ważny szczegół, który lubię: część tego ruchu to... obrońcy, którzy sami skanowali własne zasoby. W internecie naprawdę trudno odróżnić złego od dobrego, gdy obaj używają tych samych narzędzi.</p>
+      <p><strong>Ale — i to jest kluczowe — nikt publicznie nie potwierdził udanego włamania.</strong> Sophos musiał publicznie skorygować własny raport: początkowo napisał, że widział udaną eksploatację u klienta, potem przyznał, że to były tylko skany i nieudane próby. CrowdStrike też nie widział sukcesu. Sansec zauważył, że krążące publicznie exploity <strong>nie działały na domyślnych instalacjach</strong> — wymagały specyficznej konfiguracji albo dodatkowych błędów w aplikacji. CISA do dziś <strong>nie wpisała tych CVE do katalogu KEV</strong> (sprawdziłem: katalog z 23 października, 1 756 wpisów, obu podatności brak).</p>
+      <p>Czyli: napastnicy walą drzwiami i oknami, ale większość z nich nie ma klucza. Na razie.</p>
+      <p><strong>A co z tym botnetem?</strong> Sophos i Arctic Wolf zauważyli, że część ataków próbuje zainstalować <strong>Potassium</strong> — rozbudowaną mutację botnetu <strong>Mirai</strong>, który zamienia zhakowane serwery w armaty do ataków DDoS. Ten konkretny egzemplarz jest całkiem wyrafinowany: szyfruje swoją konfigurację algorytmem ChaCha20, ukrywa ruch jednym bajtem, a adresy serwerów dowodzenia potrafi rozwiązywać przez <strong>Ethereum Name Service</strong> (tak, blockchain jako DNS dla malware — cyberprzestępcy też lubią nowinki).</p>
+      <h2>Fabryka nieporozumień, czyli jak rodzi się panika</h2>
+      <p>Tu muszę być z Tobą szczery, bo to najlepsza lekcja z całej tej historii.</p>
+      <p>23 października <strong>Unit 42</strong> (Palo Alto Networks) opublikowało głośny raport: atak na europejską instytucję rządową, w którym napastnik używał <strong>agenta AI</strong> do prowadzenia działań po włamaniu. W ciągu dwóch godzin miał dotrzeć do hashy haseł i sekretów MFA, postawić tunel NTLM do Active Directory i próbować eskalować do Domain Admina. Rozpoznano go po tym, że polecenia wysyłał w blokach z delimiterami — bo tak formatuje się prompty dla modeli językowych.</p>
+      <p>Dwa dni później Unit 42 <strong>wycofało tę ocenę</strong>. Przyznali, że nie potrafią potwierdzić, że wejście nastąpiło właśnie przez PHP2Shell. Włamanie było, ale przypisanie do tej konkretnej dziury — nie.</p>
+      <p>To jest bardzo ważne, bo pokazuje, jak wygląda rzeczywistość w pierwszych dniach po ujawnieniu luki: agencje, firmy i dziennikarze publikują ustalenia, które za 48 godzin trzeba prostować. <strong>Czytaj komunikaty, ale sprawdzaj, kto je później skorygował.</strong></p>
+      <p>Równolegle rządy zaczęły działać: CISA w USA, NCSC w Wielkiej Brytanii, ENISA i Europol w UE, CERT-PH na Filipinach (26 października), Oracle, AWS, Microsoft, Google Cloud, cPanel. Część organizacji poszła na całość i <strong>po prostu wyłączyła swoje strony</strong> do czasu łatania. Epizod zyskał przez to nazwę „<strong>Black October</strong>&quot; — i szczerze mówiąc, trudno się dziwić.</p>
+      <p>Skalę pokazują liczby: Censys doliczył się <strong>34,4 miliona</strong> usług PHP w wersjach potencjalnie podatnych. Unit 42 mówi o 22,6 miliona wystawionych instancji. To nie jest problem niszowy.</p>
+      <h2>Dobra wiadomość: jest łatka. Zła: nie ma wymówek</h2>
+      <p>Poprawki wyszły 21 października:</p>
+      <ul>
+      <li>PHP 8.5 → <strong>8.5.12</strong></li>
+      <li>PHP 8.4 → <strong>8.4.27</strong></li>
+      <li>PHP 8.3 → <strong>8.3.36</strong></li>
+      <li>PHP 8.2 → <strong>8.2.35</strong></li>
+      </ul>
+      <p>Dla starszych wersji (7.4, 8.0, 8.1) PHP udostępniło minimalne backporty źródeł, a dostawcy hostingu i dystrybucje wydali własne paczki.</p>
+      <p>I tu najważniejsze zdanie z komunikatu PHP Foundation: <strong>nie ma kompletnych obejść konfiguracyjnych</strong>. Aktualizacja to jedyne pełne rozwiązanie. Można się wspomagać (WAF, limity pamięci, wyłączony <code>session.upload_progress</code>, na PHP 8.5 wyłączone <code>fatal_error_backtraces</code>), ale to plaster, nie operacja.</p>
+      <p>Dodatkowo 23 października pojawiła się trzecia dziura — <strong>CVE-2026-115560</strong> — na razie bez łatki, z obejściem <code>session.upload_progress.enabled = 0</code> w <code>php.ini</code> (i restart wszystkich workerów; <code>ini_set()</code> nie wystarczy).</p>
+      <p>A horyzont się nieco chmurzy: VulnCheck zbudował exploit na CVE-2026-109618, który <strong>omija ASLR</strong> (mechanizm losowego układania pamięci, teoretycznie utrudniający ataki) na x86-64 i działa nawet przy wyłączonym wyświetlaniu błędów. Na razie trzyma go dla klientów, ale to znak, że bariera wejścia powoli spada.</p>
+      <h2>Co to znaczy dla Ciebie, zwykłego człowieka?</h2>
+      <p>Trzy rzeczy. Po kolei.</p>
+      <p><strong>1. Jeśli masz stronę, bloga albo sklep</strong> — zapytaj hosting, czy PHP jest załatane. Nie „czy aktualizujecie&quot;, tylko konkretnie: „czy mam wersję 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12 lub nowszą?&quot;.</p>
+      <p><strong>2. Jeśli korzystasz z cudzych stron</strong> — nie masz nad tym kontroli, ale możesz ograniczyć szkody. Zmieniaj hasła tam, gdzie dostałeś ostrzeżenie. Używaj menedżera haseł, żeby wyciek z jednego serwisu nie ciągnął za sobą pozostałych. Włącz dwuskładnikowe logowanie wszędzie, gdzie się da — bo dane z pamięci serwera to często właśnie tokeny sesji i sekrety MFA.</p>
+      <p><strong>3. Jeśli widzisz w mediach „hakerzy przejęli pół internetu&quot;</strong> — weź głęboki oddech. Na dziś nie ma potwierdzonego, publicznie udokumentowanego przypadku udanego wykorzystania PHP2Shell do przejęcia serwera w realnym środowisku produkcyjnym. Są masowe próby, są nieudane ataki, jest botnet czekający na okazję. Ale to nie to samo co „już po wszystkim&quot;.</p>
+      <h2>Czego nas to uczy (i czemu jest fascynujące)</h2>
+      <p><strong>Po pierwsze:</strong> AI zmieniła reguły gry w wyszukiwaniu błędów. Dziura, która siedziała w PHP przez ponad dekadę i wymagała łańcucha tak skomplikowanego, że „na granicy ludzkich możliwości&quot;, została znaleziona przez modele w kilka dni. To dobra wiadomość dla obrońców — i zła, bo dokładnie te same modele pomagają potem budować exploity.</p>
+      <p><strong>Po drugie:</strong> najsłabszym ogniwem nie jest kod, tylko <strong>czas</strong>. Wszystko rozsypało się nie dlatego, że poprawka była zła, ale dlatego, że identyfikatory CVE wyciekły dobę za wcześnie. Doba. W internecie doba to epoka.</p>
+      <p><strong>Po trzecie:</strong> liczby nie kłamią, ale nagłówki owszem. 250 tysięcy żądań atakujących i zero potwierdzonych włamań to nie sprzeczność — to dowód, że „masowe skanowanie&quot; i „masowa kompromitacja&quot; to dwa zupełnie różne zjawiska. Nauczenie się odróżniania ich to dziś umiejętność na wagę złota, także dla ludzi spoza IT.</p>
+      <p>Mnie ta historia fascynuje, bo pokazuje internet takim, jaki jest naprawdę: kruchym, ale też zadziwiająco odpornym. Tysiące ludzi, których nie znasz, pracowało w nocy z 20 na 21 października nad łatką, którą Ty zainstalujesz jednym poleceniem i o której zapomnisz do przyszłego roku. To całkiem niezły powód, żeby mimo wszystko wierzyć w tę sieć.</p>
+      <p>A teraz idź sprawdzić, jaką masz wersję PHP. Serio.</p>
+      <blockquote><p>Źródła: PHP Foundation (komunikat z 21.10.2026), GitHub Security Advisory GHSA-6wmf-4rv5-p3rp, CISA, ENISA, NCSC-UK, CERT-PH, Wiz Research, Sophos, Unit 42 (brief zaktualizowany 25.10.2026), AWS Threat Intelligence, Fastly, Delft Threat Intelligence Lab, Censys, VulnCheck, Qualys, Rapid7.</p></blockquote>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <p class="q">
+      <b>„The sky above the port was the color of television, tuned to a dead channel."</b><br>
+      W. Gibson, Neuromancer — skąd nazwa, logo i pogoda na tej stronie.
+    </p>
+    <p class="meta">© 2026 GRZEGORZ WOLANIUK · POCHMURNY.NET<br>DZIŚ POCHMURNO</p>
+  </div>
+</footer>
+
+</body>
+</html>
